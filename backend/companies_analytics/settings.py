@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     ######### MY APPS ############
     "csv_parser.apps.CsvParserConfig",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
