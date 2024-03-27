@@ -1,22 +1,19 @@
 # from functools import lru_cache
 
-from django.http import JsonResponse
-
 from ninja import NinjaAPI
 from .models import CompanyRecord
+from .schemas import CompanySchema
+
+from typing import List
 
 # Creating an instance of NinjaAPI
 api = NinjaAPI()
 
 
-@api.get("/company")
-def company(request, rank: int = 0):
+@api.get("/company", response=List[CompanySchema], tags=["Company"])
+def company(request):
     """Return all companies in the database."""
-    if rank > 0:
-        data = CompanyRecord.objects.filter(rank=rank).values()
-        
-        return JsonResponse(list(data), safe=False)
 
-    data = CompanyRecord.objects.all().values()
+    companies = CompanyRecord.objects.all()
 
-    return JsonResponse(list(data), safe=False)
+    return companies

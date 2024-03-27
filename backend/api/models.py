@@ -1,4 +1,5 @@
 from django.db import models
+from typing import Optional
 
 
 class CompanyRecord(models.Model):
@@ -12,3 +13,6 @@ class CompanyRecord(models.Model):
 
     def __str__(self):
         return self.organizationName
+
+
+
