@@ -1,4 +1,5 @@
 from ninja import ModelSchema, FilterSchema
+from pydantic import Field
 from typing import Optional
 
 from .models import CompanyRecord
@@ -24,9 +25,20 @@ class CompanyFilterSchema(FilterSchema):
     """
 
     rank: Optional[int] = None
-    organizationName: Optional[str] = None
-    country: Optional[str] = None
+
+    min_rank: Optional[int] = Field(None, q="rank__gte")
+    max_rank: Optional[int] = Field(None, q="rank__lte")
+
+    name: Optional[str] = Field(
+        None, q="organizationName__icontains"
+    )  # q is the filter name
+
+    country: Optional[str] = Field(None, q="country__icontains")
+
     revenue: Optional[str] = None
+
     profits: Optional[str] = None
+
     assets: Optional[str] = None
+
     marketValue: Optional[str] = None
