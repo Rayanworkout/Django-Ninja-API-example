@@ -1,28 +1,20 @@
-from ninja import Schema, FilterSchema
+from ninja import ModelSchema, FilterSchema
 from pydantic import Field
 from typing import Optional
 
 from .models import CompanyRecord
 
 
-class CompanySchema(Schema):
+class CompanySchema(ModelSchema):
     """
     Response schema for CompanyRecord, I automatically generate the schema from the model.
 
     https://django-ninja.dev/guides/response/
     """
 
-    # class Meta:
-    #     model = CompanyRecord
-    #     fields = "__all__"
-
-    rank: int
-    organizationName: str
-    country: str
-    revenue: str | int
-    profits: str | int
-    assets: str | int
-    marketValue: str | int
+    class Meta:
+        model = CompanyRecord
+        fields = "__all__"
 
 
 class CompanyFilterSchema(FilterSchema):
