@@ -25,10 +25,20 @@ def company(
     companies = CompanyRecord.objects.all()
     companies = filters.filter(companies)
 
-    if order_by == "asc":
-        companies = companies.order_by("rank")
-    elif order_by == "desc":
-        companies = companies.order_by("-rank")
+    match order_by:
+        case "asc":
+            print("Ordering by rank")
+            companies = companies.order_by("rank")
+        case "desc":
+            print("Ordering by -rank")
+            companies = companies.order_by("-rank")
+
+        case "organizationName" | "revenue" | "profits" | "assets" | "marketValue":
+            print(f"Ordering by {order_by}")
+            companies = sorted(companies, key=lambda x: getattr(x, order_by))
+
+        case _:
+            companies = companies.order_by("rank")
 
     if limit:
         companies = companies[:limit]
