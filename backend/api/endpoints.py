@@ -10,7 +10,12 @@ api = NinjaAPI()
 
 
 @api.get("/company", response=List[CompanySchema], tags=["Company"])
-def company(request, filters: CompanyFilterSchema = Query(...)):
+def company(
+    request,
+    filters: CompanyFilterSchema = Query(...),
+    order_by: str = "asc",
+    limit: int = None,
+):
     """
     Return a list of companies according to the filters provided.
 
@@ -19,5 +24,13 @@ def company(request, filters: CompanyFilterSchema = Query(...)):
 
     companies = CompanyRecord.objects.all()
     companies = filters.filter(companies)
+
+    if order_by == "asc":
+        companies = companies.order_by("rank")
+    elif order_by == "desc":
+        companies = companies.order_by("-rank")
+
+    if limit:
+        companies = companies[:limit]
 
     return companies

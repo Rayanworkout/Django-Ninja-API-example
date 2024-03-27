@@ -23,15 +23,13 @@ class CompanyFilterSchema(FilterSchema):
 
     https://django-ninja.dev/guides/input/filtering/
     """
-
+    
     rank: Optional[int] = None
 
     min_rank: Optional[int] = Field(None, q="rank__gte")
     max_rank: Optional[int] = Field(None, q="rank__lte")
 
-    name: Optional[str] = Field(
-        None, q="organizationName__icontains"
-    )  # q is the filter name
+    name: Optional[str] = Field(None, q="organizationName__icontains")
 
     country: Optional[str] = Field(None, q="country__icontains")
 
