@@ -24,9 +24,9 @@ class CompanyFilterSchema(FilterSchema):
     """
 
     rank: Optional[int] = None
-    # organizationName: Optional[str] = None
-    # country: Optional[str] = None
-    # revenue: Optional[str] = None
-    # profits: Optional[str] = None
-    # assets: Optional[str] = None
-    # marketValue: Optional[str] = None
+    organizationName: Optional[str] = None
+    country: Optional[str] = None
+    revenue: Optional[str] = None
+    profits: Optional[str] = None
+    assets: Optional[str] = None
+    marketValue: Optional[str] = None
