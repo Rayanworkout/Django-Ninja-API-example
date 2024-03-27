@@ -8,9 +8,9 @@ api = NinjaAPI()
 
 # Parsing the CSV file
 parser = Parser()
-df = parser.parse_csv()
+# df = parser.csv_to_database()
 
 
-@api.get("/all_companies")
-def all(request, rank: int = 0):
-    return df.to_dict(orient="records")[rank - 1]
+# @api.get("/all_companies")
+# def all(request, rank: int = 0):
+#     return df.to_dict(orient="records")[rank - 1]
