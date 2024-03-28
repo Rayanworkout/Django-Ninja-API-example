@@ -69,10 +69,3 @@ def company(
         companies = companies[:limit]
 
     return companies
-
-
-from csv_parser.csv_parser import Parser
-
-parser = Parser()
-
-# parser.csv_to_database()
