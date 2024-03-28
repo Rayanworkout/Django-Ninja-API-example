@@ -30,4 +30,4 @@ jobs:
         DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       run: |
         cd backend
-        python manage.py test api
+        python manage.py test
