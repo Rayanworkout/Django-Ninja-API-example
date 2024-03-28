@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from api.models import CompanyRecord
+from api.models import Company
 
 
 class Parser:
@@ -61,7 +61,7 @@ class Parser:
         data = self.__clean_dataframe(data)
 
         for index, row in data.iterrows():
-            CompanyRecord.objects.create(
+            Company.objects.create(
                 rank=row["rank"],
                 organizationName=row["organizationName"],
                 country=row["country"],

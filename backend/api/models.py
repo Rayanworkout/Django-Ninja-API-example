@@ -1,8 +1,7 @@
 from django.db import models
-from typing import Optional
 
 
-class CompanyRecord(models.Model):
+class Company(models.Model):
     rank = models.IntegerField()
     organizationName = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
