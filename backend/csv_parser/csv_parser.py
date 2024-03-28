@@ -60,7 +60,7 @@ class Parser:
         data = self.__parse_csv()
         data = self.__clean_dataframe(data)
 
-        for index, row in data.iterrows():
+        for _, row in data.iterrows():
             Company.objects.create(
                 rank=row["rank"],
                 organizationName=row["organizationName"],
