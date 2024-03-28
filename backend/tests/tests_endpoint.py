@@ -1,6 +1,5 @@
 from django.test import TestCase, Client
 
-
 class TestEndpoint(TestCase):
 
     def setUp(self) -> None:

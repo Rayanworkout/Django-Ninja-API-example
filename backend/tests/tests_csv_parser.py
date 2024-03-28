@@ -2,7 +2,7 @@ import os
 import pandas as pd
 
 from django.test import TestCase
-from .csv_parser import Parser
+from csv_parser.csv_parser import Parser
 
 from api.models import Company
 
