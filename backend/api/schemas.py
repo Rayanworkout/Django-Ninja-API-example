@@ -14,15 +14,7 @@ class CompanySchema(ModelSchema):
     
     class Meta:
         model = Company
-        fields = [
-            "rank",
-            "organizationName",
-            "country",
-            "revenue",
-            "profits",
-            "assets",
-            "marketValue",
-        ]
+        fields = "__all__"
 
 
 class CompanyFilterSchema(FilterSchema):
