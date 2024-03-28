@@ -1,12 +1,17 @@
-from django.test import TestCase
-from ninja.testing import TestClient
-# import requests
-
-from .endpoints import router
+from django.test import TestCase, Client
 
 
 class TestEndpoint(TestCase):
-    def test_all_companies(self):
-        client = TestClient(router)
-        response = client.get("http://localhost:8000/api/company")
-        # assert response.status_code == 200
+
+    def setUp(self) -> None:
+        self.client = Client()
+
+
+    def test_endpoint_is_working(self):
+        response = self.client.get("/api/company")
+        assert response.status_code == 200
+    
+
+    def test_url_not_found(self):
+        response = self.client.get("/api/companyy")
+        assert response.status_code == 404
