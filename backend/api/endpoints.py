@@ -1,5 +1,5 @@
 # from functools import lru_cache
-from ninja import NinjaAPI, Query
+from ninja import NinjaAPI, Query, Router
 from .models import Company
 from .schemas import CompanySchema, CompanyFilterSchema
 
@@ -7,6 +7,7 @@ from typing import List
 
 # Creating an instance of NinjaAPI
 api = NinjaAPI()
+router = Router()
 
 
 @api.get("/company", response=List[CompanySchema], tags=["Company"])
@@ -69,3 +70,6 @@ def company(
         companies = companies[:limit]
 
     return companies
+
+
+api.add_router("", router)
