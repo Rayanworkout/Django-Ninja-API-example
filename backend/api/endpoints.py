@@ -40,7 +40,7 @@ def company(
     > limit: the maximum number of companies to return
 
     All filters can be combined, for instance, to get the top 10 companies from the United States with revenue >= 100, you can use:
-    > /company?country=united&revenue=100&limit=10
+    > /company?country=united%20states&revenue=100&limit=10
 
     If you want to order the companies by revenue in ascending order, you can use:
     > /company?order_by=revenue
