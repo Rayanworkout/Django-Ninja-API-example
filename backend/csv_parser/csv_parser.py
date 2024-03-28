@@ -84,3 +84,4 @@ class Parser:
 
         print("Data successfully saved to the database.")
 
+
