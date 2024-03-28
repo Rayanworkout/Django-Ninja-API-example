@@ -1,5 +1,5 @@
 # from functools import lru_cache
-from ninja import NinjaAPI, Query, Router
+from ninja import NinjaAPI, Query
 from .models import Company
 from .schemas import CompanySchema, CompanyFilterSchema
 
@@ -69,3 +69,10 @@ def company(
         companies = companies[:limit]
 
     return companies
+
+
+from csv_parser.csv_parser import Parser
+
+parser = Parser()
+
+# parser.csv_to_database()
