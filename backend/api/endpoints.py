@@ -7,7 +7,6 @@ from typing import List
 
 # Creating an instance of NinjaAPI
 api = NinjaAPI()
-router = Router()
 
 
 @api.get("/company", response=List[CompanySchema], tags=["Company"])
@@ -70,6 +69,3 @@ def company(
         companies = companies[:limit]
 
     return companies
-
-
-api.add_router("", router)
