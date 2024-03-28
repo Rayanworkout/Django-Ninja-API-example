@@ -19,8 +19,9 @@ class TestParser(TestCase):
 
     def test_default_file_path(self):
         current_directory = os.path.dirname(__file__)
+        previous_directory = os.path.dirname(current_directory)
         self.assertEqual(
-            self.parser.file_path, os.path.join(current_directory, "data.csv")
+            self.parser.file_path, os.path.join(previous_directory, "csv_parser", "data.csv")
         )
 
     ############ PARSE_CSV ############
