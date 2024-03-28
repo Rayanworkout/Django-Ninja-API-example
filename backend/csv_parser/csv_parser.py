@@ -5,6 +5,17 @@ from api.models import Company
 
 
 class Parser:
+    """
+    This class is meant to parse a csv file and save the data to the database. It must only be used one time when deploying.
+    When the data is saved to the database, the csv file is no longer needed and this class should not be used again.
+
+    Methods:
+            __parse_csv: Parse the csv file and return a pandas DataFrame.
+            __clean_dataframe: Cleans the dataframe by removing missing values, duplicates, and converting the 'B' and 'M' values to numbers.
+            csv_to_database: Saves the data to the database.
+
+    """
+
     def __init__(self, file_path: str = "data.csv") -> None:
 
         file_path = os.path.join(os.path.dirname(__file__), file_path)
