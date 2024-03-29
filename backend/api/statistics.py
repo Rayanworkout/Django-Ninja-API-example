@@ -47,7 +47,7 @@ class Statistics:
         # return the square root of the variance
         return sqrt(variance)
 
-    def get_country_mean(self, country, field):
+    def get_country_mean(self, country: str, field: str):
         """
         Function used to compute the mean of a specific field for a specific country.
 
@@ -56,10 +56,14 @@ class Statistics:
         # filter the companies in the given country
         companies = Company.objects.filter(country=country)
 
-        # extract the values of the given field
-        values = [getattr(company, field) for company in companies]
+        if (
+            field in ["revenue", "profits", "assets", "marketValue"]
+            and companies.exists()
+        ):
+            # extract the values of the given field
+            values = [float(getattr(company, field)) for company in companies]
 
-        # compute the mean of the values
-        mean = sum(values) / len(values)
+            # compute the mean of the values
+            mean = sum(values) / len(values)
 
-        return mean
+            return mean
