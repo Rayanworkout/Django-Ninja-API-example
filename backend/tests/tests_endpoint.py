@@ -7,6 +7,8 @@ class TestEndpoint(TestCase):
     def setUp(self) -> None:
         self.client = Client()
 
+        self.BASE_URL = "/api/companies"
+
         Company.objects.create(
             rank=1,
             organizationName="Apple",
@@ -58,11 +60,11 @@ class TestEndpoint(TestCase):
         )
 
     def test_endpoint_is_working(self):
-        response = self.client.get("/api/company")
+        response = self.client.get(self.BASE_URL)
         assert response.status_code == 200
 
     def test_url_not_found(self):
-        response = self.client.get("/api/companyy")
+        response = self.client.get("/api/companiess")
         self.assertEqual(response.status_code, 404)
 
     def test_company_created(self):
@@ -72,7 +74,7 @@ class TestEndpoint(TestCase):
 
     def test_filter_by_country(self):
 
-        response = self.client.get("/api/company?country=usa")
+        response = self.client.get(self.BASE_URL + "?country=usa")
 
         self.assertEqual(response.status_code, 200)
 
@@ -82,14 +84,14 @@ class TestEndpoint(TestCase):
 
     def test_filter_by_revenue(self):
 
-        response = self.client.get("/api/company?revenue=100015000000")
+        response = self.client.get(self.BASE_URL + "?revenue=100015000000")
 
         self.assertEqual(response.status_code, 200)
 
         self.assertEqual(len(response.json()), 4)
 
     def test_filter_by_country_and_revenue(self):
-        response = self.client.get("/api/company?country=usa&revenue=100000")
+        response = self.client.get(self.BASE_URL + "?country=usa&revenue=100000")
 
         self.assertEqual(response.status_code, 200)
 
@@ -98,7 +100,7 @@ class TestEndpoint(TestCase):
         self.assertEqual(response.json()[0]["organizationName"], "Apple")
 
     def test_order_by_revenue(self):
-        response = self.client.get("/api/company?order_by=revenue")
+        response = self.client.get(self.BASE_URL + "?order_by=revenue")
 
         self.assertEqual(response.status_code, 200)
 
@@ -107,7 +109,7 @@ class TestEndpoint(TestCase):
         self.assertEqual(response.json()[0]["organizationName"], "HSBC Holdings")
 
     def test_default_order_by_is_asc(self):
-        response = self.client.get("/api/company")
+        response = self.client.get(self.BASE_URL)
 
         self.assertEqual(response.status_code, 200)
 
@@ -120,7 +122,7 @@ class TestEndpoint(TestCase):
         )
 
     def test_order_by_desc(self):
-        response = self.client.get("/api/company?order=desc")
+        response = self.client.get(self.BASE_URL + "?order=desc")
 
         self.assertEqual(response.status_code, 200)
 
@@ -129,7 +131,7 @@ class TestEndpoint(TestCase):
         self.assertEqual(response.json()[0]["organizationName"], "HSBC Holdings")
 
     def test_order_by_organizationName(self):
-        response = self.client.get("/api/company?order_by=organizationName")
+        response = self.client.get(self.BASE_URL + "?order_by=organizationName")
 
         self.assertEqual(response.status_code, 200)
 
@@ -138,11 +140,10 @@ class TestEndpoint(TestCase):
         self.assertEqual(response.json()[1]["organizationName"], "HSBC Holdings")
 
     def test_order_by_profits(self):
-        response = self.client.get("/api/company?order_by=profits")
+        response = self.client.get(self.BASE_URL + "?order_by=profits")
 
         self.assertEqual(response.status_code, 200)
 
         self.assertEqual(len(response.json()), 5)
 
         self.assertEqual(response.json()[-1]["organizationName"], "Apple")
-
