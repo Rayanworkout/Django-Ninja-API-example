@@ -13,7 +13,8 @@ api = NinjaAPI()
 def company(
     request,
     filters: CompanyFilterSchema = Query(...),
-    order_by: str = "asc",
+    order: str = "asc",
+    order_by: str = None,
     limit: int = None,
 ):
     """
@@ -35,7 +36,9 @@ def company(
 
     > revenue: the revenue of the company, it will match greater than or equal to. Example: revenue=100 will return companies with revenue >= 100
 
-    > order_by: the field to order the companies by. Allowed values: asc, desc, organizationName, revenue, profits, assets, marketValue
+    > order: Ascending or Descending order. Allowed values: asc, desc
+
+    > order_by: the field to order the companies by. Allowed values: organizationName, revenue, profits, assets, marketValue
 
     > limit: the maximum number of companies to return
 
@@ -53,17 +56,13 @@ def company(
     companies = Company.objects.all()
     companies = filters.filter(companies)
 
-    match order_by:
-        case "asc":
-            companies = companies.order_by("rank")
-        case "desc":
-            companies = companies.order_by("-rank")
+    if order == "desc":
+        companies = companies.order_by("-rank")
+    else:
+        companies = companies.order_by("rank")
 
-        case "organizationName" | "revenue" | "profits" | "assets" | "marketValue":
-            companies = sorted(companies, key=lambda x: getattr(x, order_by))
-
-        case _:
-            companies = companies.order_by("rank")
+    if order_by in ["organizationName", "revenue", "profits", "assets", "marketValue"]:
+        companies = sorted(companies, key=lambda x: getattr(x, order_by))
 
     if limit:
         companies = companies[:limit]
