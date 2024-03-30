@@ -1,8 +1,13 @@
-from ninja import ModelSchema, FilterSchema
+from ninja import ModelSchema, FilterSchema, Schema
 from pydantic import Field
 from typing import Optional
 
 from .models import Company
+
+
+####################################################################################################
+# COMPANY ENDPOINT
+####################################################################################################
 
 
 class CompanySchema(ModelSchema):
@@ -11,18 +16,10 @@ class CompanySchema(ModelSchema):
 
     https://django-ninja.dev/guides/response/
     """
-    
+
     class Meta:
         model = Company
-        fields = [
-            "rank",
-            "organizationName",
-            "country",
-            "revenue",
-            "profits",
-            "assets",
-            "marketValue",
-        ]
+        fields = "__all__"
 
 
 class CompanyFilterSchema(FilterSchema):
@@ -42,3 +39,27 @@ class CompanyFilterSchema(FilterSchema):
     country: Optional[str] = Field(None, q="country__icontains")
 
     revenue: Optional[str] = Field(None, q="revenue__gte")
+
+
+####################################################################################################
+# STATISTICS ENDPOINT
+####################################################################################################
+
+
+class StatisticsRequestSchema(Schema):
+    country: str
+    field: str
+
+
+class CompanyMeanResponseSchema(Schema):
+    mean: Optional[float] = None
+    country: Optional[str] = None
+    field: Optional[str] = None
+    error: Optional[str] = None
+
+
+class CompanyStandardDeviationResponseSchema(Schema):
+    standard_deviation: Optional[float] = None
+    country: Optional[str] = None
+    field: Optional[str] = None
+    error: Optional[str] = None
