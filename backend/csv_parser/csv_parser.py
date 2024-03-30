@@ -74,8 +74,8 @@ class Parser:
         for _, row in data.iterrows():
             Company.objects.create(
                 rank=row["rank"],
-                organizationName=row["organizationName"],
-                country=row["country"],
+                organizationName=row["organizationName"].lower(),
+                country=row["country"].lower(),
                 revenue=row["revenue"],
                 profits=row["profits"],
                 assets=row["assets"],

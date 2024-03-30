@@ -1,13 +1,13 @@
 from django.test import TestCase
 
 from api.models import Company
-from api.statistics import Statistics
+from api.companies_statistics import CompaniesStatistics
 
 
 class TestStatistics(TestCase):
 
     def setUp(self) -> None:
-        self.statistics = Statistics()
+        self.statistics = CompaniesStatistics()
 
         Company.objects.create(
             rank=1,
@@ -69,29 +69,26 @@ class TestStatistics(TestCase):
             marketValue=905600000000,  # $905.6 billion
         )
 
-    def test_standard_deviation(self):
-        values = [2, 4, 6, 8, 10]
-        standard_deviation = self.statistics.standard_deviation(values)
-        assert round(standard_deviation, 2) == 2.83
-
     def test_country_mean_revenue(self):
         country = "USA"
         field = "revenue"
         mean = self.statistics.get_country_mean(country, field)
-        self.assertEqual(mean, 274515000000.0)
-    
+        expected_result = {"mean": 274515000000.0, "country": "USA", "field": "revenue"}
+        self.assertEqual(mean, expected_result)
+
     def test_country_mean_profits(self):
         country = "USA"
         field = "profits"
         mean = self.statistics.get_country_mean(country, field)
-        self.assertEqual(mean, 157410000000.0)
-    
+        expected_result = {"mean": 157410000000.0, "country": "USA", "field": "profits"}
+        self.assertEqual(mean, expected_result)
+
     def test_country_mean_bad_field(self):
         country = "USA"
         field = "bad_field"
         mean = self.statistics.get_country_mean(country, field)
         self.assertIsNone(mean)
-    
+
     def test_country_mean_bad_country(self):
         country = "bad_country"
         field = "revenue"

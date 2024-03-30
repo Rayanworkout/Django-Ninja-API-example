@@ -1,14 +1,25 @@
-from .models import Company
+import statistics
+
+
+from functools import lru_cache
 from math import sqrt
 
+from .models import Company
 
-# statistics about a country (mean and median)
+class CompaniesStatistics:
+    """
+    Various statistical functions used to compute the mean, median, standard deviation, etc. of the data.
 
+    The results are cached using the LRU cache mechanism to improve performance.
 
-class Statistics:
+    """
 
-    def standard_deviation(self, values: list[float]) -> float:
+    def __standard_deviation(self, values: list[float]) -> float:
         """
+
+        # NOT USED IN THE FINAL IMPLEMENTATION
+
+
         Function used to compute the standard deviation of a list of values. In our case,
         standard deviation can be applied on the following fields: revenue, profits, assets, marketValue.
 
@@ -39,7 +50,7 @@ class Statistics:
         """
 
         # compute the mean of the values
-        mean = sum(values) / len(values)
+        mean = statistics.mean(values)
 
         # compute the variance of the values
         variance = sum((x - mean) ** 2 for x in values) / len(values)
@@ -47,6 +58,33 @@ class Statistics:
         # return the square root of the variance
         return sqrt(variance)
 
+    @lru_cache(maxsize=1024)
+    def get_country_standard_deviation(self, country: str, field: str):
+        """
+        Function used to compute the standard deviation of a specific field for a specific country.
+
+        """
+
+        # filter the companies in the given country
+        companies = Company.objects.filter(country=country)
+
+        if (
+            field in ["revenue", "profits", "assets", "marketValue"]
+            and companies.exists()
+        ):
+            # extract the values of the given field
+            values = [float(getattr(company, field)) for company in companies]
+
+            # compute the standard deviation of the values
+            standard_deviation = statistics.stdev(values)
+
+            return {
+                "standard_deviation": standard_deviation,
+                "country": country,
+                "field": field,
+            }
+
+    @lru_cache(maxsize=1024)
     def get_country_mean(self, country: str, field: str):
         """
         Function used to compute the mean of a specific field for a specific country.
@@ -64,6 +102,10 @@ class Statistics:
             values = [float(getattr(company, field)) for company in companies]
 
             # compute the mean of the values
-            mean = sum(values) / len(values)
+            mean = statistics.mean(values)
 
-            return mean
+            return {
+                "mean": mean,
+                "country": country,
+                "field": field,
+            }

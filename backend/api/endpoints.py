@@ -1,9 +1,15 @@
 # from functools import lru_cache
 from ninja import NinjaAPI, Query
 from .models import Company
-from .schemas import CompanySchema, CompanyFilterSchema
-
+from .schemas import (
+    CompanySchema,
+    CompanyFilterSchema,
+    StatisticsRequestSchema,
+    CompanyMeanResponseSchema,
+)
 from typing import List
+
+from .companies_statistics import CompaniesStatistics
 
 # Creating an instance of NinjaAPI
 api = NinjaAPI()
@@ -68,3 +74,32 @@ def company(
         companies = companies[:limit]
 
     return companies
+
+
+@api.get(
+    "/statistics/country_mean", response=CompanyMeanResponseSchema, tags=["Statistics"]
+)
+def country_mean(request, fields: StatisticsRequestSchema = Query(...)):
+    """
+    Return the mean of the field for the companies in the given country.
+
+    Allowed Fields:
+    > revenue
+    > profits
+    > assets
+    > marketValue
+
+    Example:
+    > /api/statistics/country_mean?country=united%20states&field=revenue
+    > /api/statistics/country_mean?country=france&field=profits
+
+    """
+
+    companies_statistics = CompaniesStatistics()
+
+    country = fields.country
+    field = fields.field
+
+    country_mean = companies_statistics.get_country_mean(country, field)
+
+    return country_mean
