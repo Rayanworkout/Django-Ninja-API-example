@@ -1,15 +1,16 @@
-# from functools import lru_cache
 from ninja import NinjaAPI, Query
+from typing import List
+
+from .companies_statistics import CompaniesStatistics
 from .models import Company
 from .schemas import (
     CompanySchema,
     CompanyFilterSchema,
     StatisticsRequestSchema,
     CompanyMeanResponseSchema,
+    CompanyStandardDeviationResponseSchema,
 )
-from typing import List
 
-from .companies_statistics import CompaniesStatistics
 
 # Creating an instance of NinjaAPI
 api = NinjaAPI()
@@ -103,3 +104,36 @@ def country_mean(request, fields: StatisticsRequestSchema = Query(...)):
     country_mean = companies_statistics.get_country_mean(country, field)
 
     return country_mean
+
+
+@api.get(
+    "/statistics/country_standard_deviation",
+    response=CompanyStandardDeviationResponseSchema,
+    tags=["Statistics"],
+)
+def country_standard_deviation(request, fields: StatisticsRequestSchema = Query(...)):
+    """
+    Return the standard deviation of the field for the companies in the given country.
+
+    Allowed Fields:
+    > revenue
+    > profits
+    > assets
+    > marketValue
+
+    Example:
+    > /api/statistics/country_standard_deviation?country=united%20states&field=revenue
+    > /api/statistics/country_standard_deviation?country=france&field=profits
+
+    """
+
+    companies_statistics = CompaniesStatistics()
+
+    country = fields.country
+    field = fields.field
+
+    country_standard_deviation = companies_statistics.get_country_standard_deviation(
+        country, field
+    )
+
+    return country_standard_deviation

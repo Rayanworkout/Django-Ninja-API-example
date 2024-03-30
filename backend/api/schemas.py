@@ -40,6 +40,7 @@ class CompanyFilterSchema(FilterSchema):
 
     revenue: Optional[str] = Field(None, q="revenue__gte")
 
+
 ####################################################################################################
 # STATISTICS ENDPOINT
 ####################################################################################################
@@ -49,8 +50,16 @@ class StatisticsRequestSchema(Schema):
     country: str
     field: str
 
+
 class CompanyMeanResponseSchema(Schema):
     mean: Optional[float] = None
+    country: Optional[str] = None
+    field: Optional[str] = None
+    error: Optional[str] = None
+
+
+class CompanyStandardDeviationResponseSchema(Schema):
+    standard_deviation: Optional[float] = None
     country: Optional[str] = None
     field: Optional[str] = None
     error: Optional[str] = None
