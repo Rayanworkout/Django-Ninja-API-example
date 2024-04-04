@@ -17,7 +17,7 @@ class CompaniesStatistics:
     def __standard_deviation(self, values: list[float]) -> float:
         """
 
-        # NOT USED IN THE FINAL IMPLEMENTATION
+        # THIS METHOD WON'T BE USED IN THE FINAL IMPLEMENTATION, BECAUSE IT ALREADY EXISTS IN THE STATISTICS MODULE
 
 
         Function used to compute the standard deviation of a list of values. In our case,
