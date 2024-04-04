@@ -1,6 +1,6 @@
-# Example API using Django Ninja framework
+# Fully documented simple API using Django Ninja framework
 
-This is a simple example of an API using Django Ninja framework. It features advanced filtering and some statistics about the dataset
+This is a simple example of an API using Django Ninja framework. It features advanced filtering, the use of schemas and some statistics about a dataset.
 
 ## How to launch server the first time
 
