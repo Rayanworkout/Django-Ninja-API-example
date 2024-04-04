@@ -2,7 +2,7 @@
 
 This is a simple example of an API using Django Ninja framework. It features advanced filtering, the use of schemas and some statistics about a dataset.
 
-## How to launch server the first time
+## How to launch server the first time (windows)
 
 After cloning the repository, you need to install the dependencies and create the database. For that you need to have Python installed on your machine.
 Follow the instructions below to launch the server:
